@@ -1,3 +1,5 @@
+import 'package:cargoship/screens/itemlist_form.dart';
+import 'package:cargoship/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 class Item {
@@ -19,6 +21,9 @@ class ItemCard extends StatelessWidget {
       child: InkWell (
         onTap: () {
           ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")));
+          if (item.name == "Tambah Item") {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ItemFormPage()));
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(5),
@@ -68,9 +73,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "CargoShip",
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: Colors.indigo,
@@ -88,6 +93,7 @@ class MyHomePage extends StatelessWidget {
           }).toList(),
         ),
       ),
+      drawer: const CustomDrawer(),
     );
   }
 }
