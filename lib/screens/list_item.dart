@@ -1,3 +1,4 @@
+import 'package:cargoship/screens/detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,6 +7,7 @@ import 'package:cargoship/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:cargoship/models/cargo_container.dart';
+import 'package:cargoship/screens/detail_item.dart';
 
 class ItemPage extends StatefulWidget {
     const ItemPage({Key? key}) : super(key: key);
@@ -17,7 +19,7 @@ class ItemPage extends StatefulWidget {
 class _ItemPageState extends State<ItemPage> {
   Future<List<Item>> fetchItem() async {
       final request = context.watch<CookieRequest>();
-      var response = await request.get('http://localhost:8000/json-item/');
+      var response = await request.get('http://127.0.0.1:8000/json-item/');
 
       // melakukan konversi data json menjadi object Product
       List<Item> list_item = [];
@@ -31,7 +33,7 @@ class _ItemPageState extends State<ItemPage> {
 
     Future<Map<int, String>> fetchContainer() async {
       final request = context.watch<CookieRequest>();
-      var response = await request.get('http://localhost:8000/json-container/');
+      var response = await request.get('http://127.0.0.1:8000/json-container/');
 
       // melakukan konversi data json menjadi object Product
       Map<int, String>list_container = {};
@@ -95,18 +97,17 @@ class _ItemPageState extends State<ItemPage> {
                                   fontWeight: FontWeight.bold,
                               ),
                               ),
-                              const SizedBox(height: 10),
-                              Text("Contained in ${containerMap[items![index].fields.container]}"),
-                              const SizedBox(height: 10),
-                              Text("Owner: ${items![index].fields.owner}"),
-                              const SizedBox(height: 10),
-                              Text("Type: ${items![index].fields.type}"),
-                              const SizedBox(height: 10),
                               Text("Amount: ${items![index].fields.amount}"),
                               const SizedBox(height: 10),
-                              Text("Weight: ${items![index].fields.weight}"),
-                              const SizedBox(height: 10),
-                              Text("Description: ${items![index].fields.description}")
+                              Text("Description: ${items![index].fields.description}"),
+                              ElevatedButton(
+                              onPressed: (){
+                                Navigator.push(context, 
+                                MaterialPageRoute(builder: (context) => DetailItemPage(item: items[index], containerName: containerMap[items[index].fields.container]))
+                                );
+                              }, 
+                              child: Text("View Detail"),
+                              )
                           ],
                           ),
                       ));

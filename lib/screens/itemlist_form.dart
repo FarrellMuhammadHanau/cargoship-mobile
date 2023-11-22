@@ -28,7 +28,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
 
   Future<List<CargoContainer>> fetchContainer() async {
     final request = context.watch<CookieRequest>();
-    var response = await request.get('http://localhost:8000/json-container/');
+    var response = await request.get('http://127.0.0.1:8000/json-container/');
 
     // melakukan decode response menjadi bentuk json
     // var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -271,7 +271,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final response = await request.postJson(
-                        "http://localhost:8000/create-flutter/",
+                        "http://127.0.0.1:8000/create-flutter/",
                         jsonEncode(<String, String>{
                             'name': _name,
                             'amount': _amount.toString(),
